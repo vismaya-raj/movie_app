@@ -7,32 +7,48 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  colors,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { MovieCard } from "./components/MovieCard.js";
 import Footer from "./components/Footer.js";
 const API_KEY = "c8082b36";
+const useStyles = makeStyles({
+  root: {
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  selectStyles: {
+    width: "100px",
+    height: "30px",
+  },
+});
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
-  // const [trendingCategory, setTrendingCategory] = useState("trending");
-
+  const [selectedOption, setSelectedOption] = useState("movie");
+  const classes = useStyles();
   useEffect(() => {
+    console.log("this is selected option", setSelectedOption);
     const fetchMovies = async () => {
-      const res = await fetch(
-        `https://www.omdbapi.com/?s=${category}&apikey=${API_KEY}`
-      );
+      let url = `https://www.omdbapi.com/?s=${category}&apikey=${API_KEY}`;
+      if (selectedOption) {
+        url += `&type=${selectedOption}`;
+      }
+      const res = await fetch(url);
       const data = await res.json();
-      console.log(data.Search);
-      setMovies(data.Search.filter((obj) => obj.Poster !== "N/A"));
+
+      setMovies(
+        data.Search ? data.Search.filter((obj) => obj.Poster !== "N/A") : []
+      );
     };
     fetchMovies();
-  }, [category]);
+  }, [category, selectedOption]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
-
   const filteredMovies = movies
     ? movies.filter((movie) =>
         movie.Title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -41,9 +57,11 @@ const App = () => {
 
   return (
     <Container>
-      <AppBar color="white">
+      <AppBar className={classes.root}>
         <Toolbar>
-          <Typography variant="h6">Movies</Typography>
+          <Typography variant="h6" className={classes.typographyAlign}>
+            Movies
+          </Typography>
           <TextField
             label="Search"
             type="text"
@@ -53,17 +71,36 @@ const App = () => {
           <Button variant="outlined" onClick={() => setCategory(searchTerm)}>
             Search
           </Button>
-          <Button variant="outlined" onClick={() => setCategory("trending")}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedOption("");
+              setCategory("trending");
+            }}
+          >
             Trending
           </Button>
+          <select
+            className={classes.selectStyles}
+            onChange={(event) => setSelectedOption(event.target.value)}
+          >
+            <option value="movie">Movies</option>
+            <option value="series">Series</option>
+            <option value="episode">Episodes</option>
+          </select>
         </Toolbar>
       </AppBar>
       <Grid container spacing={3} alignItems="center">
-        {filteredMovies.map((movie) => (
-          <Grid item key={movie.imdbID} xs={12} sm={6} md={4} lg={3}>
-            <MovieCard movie={movie} />
-          </Grid>
-        ))}
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
+            <Grid item key={movie.imdbID} xs={12} sm={6} md={4} lg={3}>
+              <MovieCard movie={movie} />
+            </Grid>
+          ))
+        ) : (
+          <p style={{ marginTop: "100px" }}>No Result Found</p>
+        )}
       </Grid>
       <Footer />
     </Container>
