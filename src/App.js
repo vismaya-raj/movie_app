@@ -33,12 +33,15 @@ const useStyles = makeStyles({
   {
 backgroundColor:'white',
 marginRight:'10px'
+  },
+  textFieldStyle:{
+  textDecorationColor:'white'
   }
   });
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("cat");
+  const [category, setCategory] = useState("star");
   const [selectedOption, setSelectedOption] = useState("movie");
   const classes = useStyles();
   useEffect(() => {
@@ -79,6 +82,7 @@ const App = () => {
             type="text"
             value={searchTerm}
             onChange={handleSearch}
+            className={classes.textFieldStyle}
           />
           <Button variant="outlined" className={classes.buttonStyle} onClick={() => setCategory(searchTerm)}>
             Search
