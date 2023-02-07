@@ -6,8 +6,7 @@ import {
   Button,
   AppBar,
   Toolbar,
-  Typography,
-  colors,
+  Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MovieCard } from "./components/MovieCard.js";
@@ -16,13 +15,25 @@ const API_KEY = "c8082b36";
 const useStyles = makeStyles({
   root: {
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "purple",
   },
   selectStyles: {
     width: "100px",
     height: "30px",
+    color:'purple'
   },
-});
+  headline:
+  {
+    color:'yellow',
+    fontSize:'30px',
+    fontWeight:'bold',
+    marginRight:'500px'
+  },
+  buttonStyle:
+  {
+backgroundColor:'white'
+  }
+  });
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,7 +70,7 @@ const App = () => {
     <Container>
       <AppBar className={classes.root}>
         <Toolbar>
-          <Typography variant="h6" className={classes.typographyAlign}>
+          <Typography variant="h6" className= {classes.headline}>
             Movies
           </Typography>
           <TextField
@@ -68,11 +79,12 @@ const App = () => {
             value={searchTerm}
             onChange={handleSearch}
           />
-          <Button variant="outlined" onClick={() => setCategory(searchTerm)}>
+          <Button variant="outlined" className={classes.buttonStyle} onClick={() => setCategory(searchTerm)}>
             Search
           </Button>
           <Button
             variant="outlined"
+            className={classes.buttonStyle}
             onClick={() => {
               setSearchTerm("");
               setSelectedOption("");
