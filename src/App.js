@@ -31,13 +31,14 @@ const useStyles = makeStyles({
   },
   buttonStyle:
   {
-backgroundColor:'white'
+backgroundColor:'white',
+marginRight:'10px'
   }
   });
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("cat");
   const [selectedOption, setSelectedOption] = useState("movie");
   const classes = useStyles();
   useEffect(() => {
