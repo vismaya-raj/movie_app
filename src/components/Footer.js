@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     
     <footer>
-<div className='paragraph'><p>Copyright &copy; {new Date().getFullYear()} Futura Labs</p></div>
+<div className='paragraph'><p>Copyright &copy; {new Date().getFullYear()} ABC</p></div>
      
     </footer>
   );
