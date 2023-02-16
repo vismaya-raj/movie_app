@@ -11,7 +11,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { MovieCard } from "./components/MovieCard.js";
 import Footer from "./components/Footer.js";
-const API_KEY = "c8082b36";
+const API_KEY = "API_KEY";
 const useStyles = makeStyles({
   root: {
     alignItems: "center",
